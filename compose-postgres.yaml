@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  r2dbc_api:
+    build: .
+    environment:
+      - SPRING_DATASOURCE_URL=r2dbc:pool:postgresql://postgresdb:5432/people_db
+    env_file:
+      - .env
+    container_name: reactive_api_service_container
+    depends_on:
+      - postgresdb
+    networks:
+      postgres_network:
+    ports:
+      - '9090:9090'
+    stdin_open: true
+    tty: true
+    volumes:
+      - .m2:/root/.m2
+  postgresdb:
+    container_name: postgres_container_at_6432
+    env_file:
+      - .env
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=$POSTGRES_DB_USER
+      - POSTGRES_PASSWORD=$POSTGRES_DB_ROOT_PASSWORD
+      - POSTGRES_DB=$POSTGRES_DB_NAME
+    ports:
+      - '$POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT'
+    networks:
+      - postgres_network
+    volumes:
+      - ./init-scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - postgres_data:/var/lib/postgres
+networks:
+  postgres_network:
+volumes:
+  postgres_data:
