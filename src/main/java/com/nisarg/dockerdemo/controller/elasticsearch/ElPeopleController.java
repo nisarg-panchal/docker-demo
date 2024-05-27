@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Slf4j
 @AllArgsConstructor
 @RestController
@@ -19,7 +21,7 @@ public class ElPeopleController {
     private ElPeopleRepository elPeopleRepository;
 
     @GetMapping("{id}")
-    public Mono<Person> findById(@PathVariable String id) {
+    public Mono<Person> findById(@PathVariable UUID id) {
         log.info("Fetching person with id {}", id);
         return elPeopleRepository.findById(id);
     }

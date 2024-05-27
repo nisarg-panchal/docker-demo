@@ -9,6 +9,8 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
+
 @Document(indexName = "people")
 @Table("people")
 @Data
@@ -17,7 +19,7 @@ import org.springframework.data.relational.core.mapping.Table;
 public class Person {
     @Id
     @Field(type = FieldType.Text, name = "id")
-    private String id;
+    private UUID id;
     @Field(type = FieldType.Text, name = "name")
     private String name;
     @Field(type = FieldType.Text, name = "email")

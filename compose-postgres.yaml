@@ -9,6 +9,7 @@ services:
     container_name: reactive_api_service_container
     depends_on:
       - postgresdb
+      - es9200
     networks:
       postgres_network:
     ports:

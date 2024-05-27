@@ -28,8 +28,8 @@ public class R2dbcConfig {
     @Bean
     public CommandLineRunner initData(PeopleRepository peopleRepository) {
         return args -> {
-            peopleRepository.save(new Person(UUID.randomUUID().toString(), "Nisarg", "nisarg@gmail.com")).log();
-            peopleRepository.save(new Person(UUID.randomUUID().toString(), "John", "john@gmail.com")).log();
+            peopleRepository.save(new Person(UUID.randomUUID(), "Nisarg", "nisarg@gmail.com")).log();
+            peopleRepository.save(new Person(UUID.randomUUID(), "John", "john@gmail.com")).log();
         };
     }
 }
