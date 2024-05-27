@@ -34,7 +34,22 @@ services:
     volumes:
       - ./init-scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
       - postgres_data:/var/lib/postgres
+  es9200:
+    container_name: es
+    environment:
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    image: elasticsearch:8.13.4
+    ports:
+      - 9200:9200
+      - 9300:9300
 networks:
   postgres_network:
 volumes:
   postgres_data:
+  es_data:
