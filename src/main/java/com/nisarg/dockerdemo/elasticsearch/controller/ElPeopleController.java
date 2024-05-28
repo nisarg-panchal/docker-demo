@@ -1,7 +1,7 @@
-package com.nisarg.dockerdemo.controller.elasticsearch;
+package com.nisarg.dockerdemo.elasticsearch.controller;
 
 import com.nisarg.dockerdemo.bean.Person;
-import com.nisarg.dockerdemo.repository.elasticsearch.ElPeopleRepository;
+import com.nisarg.dockerdemo.elasticsearch.repository.ElPeopleRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
