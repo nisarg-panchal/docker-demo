@@ -9,9 +9,10 @@ services:
     container_name: reactive_api_service_container
     depends_on:
       - postgresdb
-      - es9200
+      - es9400
     networks:
       postgres_network:
+      es_network:
     ports:
       - '9090:9090'
     stdin_open: true
@@ -29,16 +30,23 @@ services:
       - POSTGRES_PASSWORD=$POSTGRES_DB_ROOT_PASSWORD
       - POSTGRES_DB=$POSTGRES_DB_NAME
     ports:
-      - '$POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT'
+      - "$POSTGRES_LOCAL_PORT:$POSTGRES_DOCKER_PORT"
+    expose:
+      - "6432"
     networks:
       - postgres_network
     volumes:
       - ./init-scripts/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
       - postgres_data:/var/lib/postgres
-  es9200:
+  es9400:
     container_name: es
+    env_file:
+      - .env
     environment:
       - discovery.type=single-node
+      - SPRING_ELASTICSEARCH_URIS=es:9200
+      - ELASTIC_PASSWORD=admin
+      - xpack.security.enabled=false
     ulimits:
       memlock:
         soft: -1
@@ -47,10 +55,17 @@ services:
       - es_data:/usr/share/elasticsearch/data
     image: elasticsearch:8.13.4
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "$ELASTIC_LOCAL_PORT_9400:$ELASTIC_DOCKER_PORT_9200"
+      - "$ELASTIC_LOCAL_PORT_9500:$ELASTIC_DOCKER_PORT_9300"
+    expose:
+      - "9200"
+    networks:
+      - es_network
 networks:
   postgres_network:
+  es_network:
 volumes:
   postgres_data:
+    driver: local
   es_data:
+    driver: local
