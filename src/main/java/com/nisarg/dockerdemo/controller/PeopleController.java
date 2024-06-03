@@ -38,7 +38,10 @@ public class PeopleController {
         log.info("Find All");
         List<Person> people = new LinkedList<>();
         Flux<Person> peopleFlux = peopleRepository.findAll();
-        peopleFlux.subscribe(people::add);
+        peopleFlux.onBackpressureBuffer().subscribe(person -> {
+            log.info("Storing: {}", person.toString());
+            people.add(person);
+        });
         if (!people.isEmpty()) {
             log.info("Storing {} people in Elastic-search", people.size());
             elPeopleRepository.saveAll(people);
