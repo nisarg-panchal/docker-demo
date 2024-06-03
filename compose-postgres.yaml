@@ -59,6 +59,8 @@ services:
       - "$ELASTIC_LOCAL_PORT_9500:$ELASTIC_DOCKER_PORT_9300"
     expose:
       - "9200"
+    depends_on:
+      - postgresdb
     networks:
       - es_network
 networks:
