@@ -16,6 +16,7 @@ services:
     ports:
       - '9090:9090'
     stdin_open: true
+    restart: on-failure
     tty: true
     volumes:
       - .m2:/root/.m2
