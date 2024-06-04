@@ -39,13 +39,8 @@ public class PeopleController {
         peopleFlux.onBackpressureBuffer().subscribe(person -> {
             log.info("Storing: {}", person.toString());
             people.add(person);
+            log.info("Added {} to elastic-search", elPeopleRepository.save(person).block().toString());;
         });
-        if (!people.isEmpty()) {
-            log.info("Storing {} people in Elastic-search", people.size());
-            elPeopleRepository.saveAll(people);
-        } else {
-            log.info("No people stored in Elastic-search");
-        }
         return peopleFlux;
     }
 }
